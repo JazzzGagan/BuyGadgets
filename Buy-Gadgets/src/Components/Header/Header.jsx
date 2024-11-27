@@ -13,7 +13,7 @@ import { AuthContext } from '../../context/AuthContext'
 import DropDown from './DropDown/DropDown'
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext)
+
   const [showLogin, setShowLogin] = useState(false)
   const [dropdowns, setDropDowns] = useState({})
 

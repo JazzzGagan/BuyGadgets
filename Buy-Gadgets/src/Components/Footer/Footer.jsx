@@ -6,8 +6,8 @@ import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons'
 
 const Footer = () => {
   return (
-    <footer className="w-full h-[60vh] flex flex-col text-xl font-medium items-center justify-center text-white bg-black">
-      <div className="flex items-center justify-center w-full h-[20vh] text-m text-white bg-red-600">
+    <footer className=" bg-black text-white border-y">
+      <div className="mx-auto bg-red-600 w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="w-[95%] h-[12vh] flex items-center justify-between p-4 text-xl">
           <form action="#" className="space-y-4">
             <p>Weekly Newsletter</p>
@@ -42,8 +42,13 @@ const Footer = () => {
             <div className="copyright mt-10">
               <p>© 2024 ByMusic</p>
               <br />
-              <Link to="/About" className='font-thin'>Terms and Conditions</Link>&nbsp;
-              <Link to="/About" className='font-thin'>Privacy Policy</Link>
+              <Link to="/About" className="font-thin">
+                Terms and Conditions
+              </Link>
+              &nbsp;
+              <Link to="/About" className="font-thin">
+                Privacy Policy
+              </Link>
             </div>
           </div>
           <div className="community w-[40%] h-[15vh] flex flex-col items-start justify-center mt-20">
@@ -52,7 +57,6 @@ const Footer = () => {
                 href="https://www.facebook.com/YourPage"
                 target="_blank"
                 rel="noopener noreferrer"
-               
               >
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
@@ -60,7 +64,6 @@ const Footer = () => {
                 href="https://www.instagram.com/YourProfile"
                 target="_blank"
                 rel="noopener noreferrer"
-               
               >
                 <FontAwesomeIcon icon={faInstagram} />
               </a>

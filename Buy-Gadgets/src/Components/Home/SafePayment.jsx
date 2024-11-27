@@ -39,14 +39,14 @@ const SafePayment = () => {
   }
 
   return (
-    <section className="hero-section mt-[50rem]  w-full h-[20vh]">
+    <section className="hero-section text-center  w-full h-auto">
       <Slider {...settings}>
         {paymentOptions.map((option, index) => (
           <div key={index} className="flex items-center justify-center">
             <img
               src={option.src}
               alt={option.alt}
-              className="object-contain w-[200px] h-[200px]"
+              className="object-contain w-[200px] h-auto"
             />
           </div>
         ))}

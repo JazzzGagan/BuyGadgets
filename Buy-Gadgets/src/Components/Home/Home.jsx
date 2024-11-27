@@ -16,10 +16,8 @@ const Home = () => {
   }, [users]) */
 
   return (
-    <div className="w-full h-[140vh] flex flex-col   ">
+    <div className="w-full h-auto flex flex-col   ">
       <HeroSection />
-
-      <SafePayment />
     </div>
   )
 }

@@ -26,7 +26,7 @@ const HeroSection = () => {
   }
 
   return (
-    <section className="hero-section bg-slate-400 w-[100%]  h-[10vh]">
+    <section className="hero-section  w-full  h-auto">
       <Slider {...settings}>
         <div>
           <img

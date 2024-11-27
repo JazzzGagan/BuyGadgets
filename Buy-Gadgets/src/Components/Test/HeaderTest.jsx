@@ -12,11 +12,13 @@ import LoginTest2 from '../../Pages/LoginTest2'
 import { AuthContext } from '../../context/AuthContext'
 import DropDown from '../DropDown/DropDown'
 import { dropDowndata } from '../DropDown/DropDownData'
+import { CartContext } from '../../context/CartContext'
 
 const HeaderTest = () => {
   const { user, logout } = useContext(AuthContext)
   const [showLogin, setShowLogin] = useState(false)
   const [dropdowns, setDropDowns] = useState({})
+  const { cartCount } = useContext(CartContext)
 
   const capitalInitialLetter = (user) => {
     return user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1)
@@ -167,9 +169,20 @@ const HeaderTest = () => {
               </li>
             </ul>
           </nav>
-          <div className="header-item w-[10%] h-[10vh] bg-slate-400  text-white flex items-center justify-center text-2xl space-x-3 cursor-pointer">
+          <div className="header-item w-[10%] h-[10vh]  text-white flex items-center justify-center text-xl space-x-3 cursor-pointer">
             <FontAwesomeIcon icon={faSearch} />
-            <FontAwesomeIcon icon={faBagShopping} />
+            <div className="w-6 h-12 mb-6 flex flex-col items-center justify-center cursor-pointer">
+              {cartCount >= 0 && (
+                <span className="bg-slate-200 text-black text-sm border text-center rounded-full w-5 h-5 mr-4 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+              <Link to="/cartitems">
+                <span>
+                  <FontAwesomeIcon icon={faBagShopping} />
+                </span>
+              </Link>
+            </div>
 
             {user ? (
               <div
