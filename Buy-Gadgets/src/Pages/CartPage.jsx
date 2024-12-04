@@ -1,85 +1,105 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-// import { ToastContainer, toast } from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
 import { Snackbar, Alert } from '@mui/material'
+import { CartContext } from '../context/CartContext'
 
-const baseUrl = 'http://localhost:3000/api/getitem'
+// const baseUrl = 'http://localhost:3000/api/getitem'
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([])
-  const [total, setTotal] = useState(0)
+  // const [cartItems, setCartItems] = useState([])
+  // const recentResponse = useRef([])
+  const { cartItems, total, incrementQuantity, decreaseQuantity, removeItem } =
+    useContext(CartContext)
+  // const [total, setTotal] = useState(0)
   const [open, setOpen] = useState(false)
 
   const handleClose = () => setOpen(false)
 
-  useEffect(() => {
-    axios
-      .get(baseUrl)
-      .then((response) => {
-        setCartItems(response.data)
-        const totalCost = response.data.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        )
-        setTotal(totalCost)
-      })
-      .catch((error) => {
-        console.error('Error fetching cart items', error)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get(baseUrl)
+  //     .then((response) => {
+  //       const mergedItems = response.data.reduce((acc, item) => {
+  //         const existingItem = acc.find(
+  //           (cartItem) =>
+  //             cartItem.productId === item.productId &&
+  //             cartItem.color === item.color
+  //         )
 
-  const removeItem = async (productId) => {
-    axios
-      .delete(`http://localhost:3000/api/removeitem/${productId}`)
-      .then((response) => {
-        console.log('sucessfully item deleted')
-      })
-      .catch((error) => {
-        console.error('Error deleting item', error)
-      })
-  }
+  //         if (existingItem) {
+  //           existingItem.quantity += item.quantity
+  //         } else {
+  //           acc.push(item)
+  //         }
+  //         return acc
+  //       }, [])
 
-  const incrementQuantity = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.productId === productId
-          ? {
-              ...item,
-              quantity: item.quantity < 10 ? item.quantity + 1 : item.quantity,
-            }
-          : item
-      )
-    )
+  //       recentResponse.current = mergedItems
+  //       setCartItems(mergedItems)
+  //       const totalCost = mergedItems.reduce(
+  //         (acc, item) => acc + item.price * item.quantity,
+  //         0
+  //       )
+  //       setTotal(totalCost)
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching cart items', error)
+  //     })
+  // }, [])
 
-    const item = cartItems.find((item) => item.productId === productId)
-    if (item && item.quantity >= 10) {
-      setOpen(true)
-    }
-  }
+  // const incrementQuantity = (_id, color) => {
+  //   setCartItems((prevItems) => {
+  //     const updatedItems = prevItems.map((item) =>
+  //       item._id === _id && item.color === color
+  //         ? {
+  //             ...item,
+  //             quantity: item.quantity < 10 ? item.quantity + 1 : item.quantity,
+  //           }
+  //         : item
+  //     )
 
-  const decreaseQuantity = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.productId === productId && item.quantity > 1
-          ? {
-              ...item,
-              quantity: item.quantity - 1,
-            }
-          : item
-      )
-    )
-  }
+  //     const updatedItem = updatedItems.find(
+  //       (item) => item._id === _id && item.color === color
+  //     )
 
-  useEffect(() => {
-    const totalCost = cartItems.reduce(
-      (acc, item) => acc + item.quantity * item.price,
-      0
-    )
-    setTotal(totalCost)
-  }, [cartItems])
+  //     if (updatedItem && updatedItem.quantity >= 10) {
+  //       setOpen(true)
+  //     }
+
+  //     return updatedItems
+  //   })
+  // }
+
+  // const decreaseQuantity = (_id, color) => {
+  //   setCartItems((prevItems) =>
+  //     prevItems.map((item) =>
+  //       item._id === _id && item.color === color && item.quantity > 1
+  //         ? { ...item, quantity: item.quantity - 1 }
+  //         : item
+  //     )
+  //   )
+  // }
+
+  // useEffect(() => {
+  //   const totalCost = cartItems.reduce(
+  //     (acc, item) => acc + item.quantity * item.price,
+  //     0
+  //   )
+  //   setTotal(totalCost)
+  // }, [cartItems])
+
+  // const removeItem = async (_id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:3000/api/removeitem/${_id}`)
+  //     setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id))
+  //     console.log('Item removed successfully')
+  //   } catch (error) {
+  //     console.error('Error removing item:', error)
+  //   }
+  // }
 
   return (
     <div className="p-6 max-w-4xl mx-auto ">
@@ -108,7 +128,7 @@ const CartPage = () => {
           </thead>
           <tbody>
             {cartItems.map((item) => (
-              <tr key={item.productId} className="text-center">
+              <tr key={item._id} className="text-center">
                 <td className="border-t border-b text-left">
                   <img
                     src={item.ImageUrl[0]}
@@ -118,14 +138,14 @@ const CartPage = () => {
                   {item.productName}
                 </td>
                 <td className="border-t border-b p-2">
-                  ${item.price.toFixed(2)}
+                  NPR{item.price.toFixed(2)}
                 </td>
                 <td className="border-t border-b p-2">{item.color}</td>
                 <td className="border-t border-b ">
                   <div className="flex items-center justify-center space-x-4">
                     <button
                       className="w-10 h-10 font-semibold text-2xl bg-slate-200"
-                      onClick={() => incrementQuantity(item.productId)}
+                      onClick={() => incrementQuantity(item._id, item.color)}
                     >
                       +
                     </button>
@@ -134,18 +154,22 @@ const CartPage = () => {
 
                     <button
                       className="w-10 h-10 font-semibold text-2xl bg-slate-200"
-                      onClick={() => decreaseQuantity(item.productId)}
+                      onClick={() => decreaseQuantity(item._id, item.color)}
                     >
                       -
                     </button>
                   </div>
                 </td>
                 <td className="border-t border-b p-2">
-                  ${item.price * item.quantity.toFixed(2)}{' '}
+                  NPR{' '}
+                  {(item.price * item.quantity).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{' '}
                   <FontAwesomeIcon
-                    onClick={() => removeItem(item.productId)}
+                    onClick={() => removeItem(item._id)}
                     icon={faXmark}
-                    className="rounded-full text-lg w-6 h-6 text-black bg-slate-400"
+                    className="rounded-full text-lg w-6 h-6 text-black cursor-pointer bg-slate-400"
                   />{' '}
                 </td>
               </tr>
@@ -155,8 +179,17 @@ const CartPage = () => {
       ) : (
         <p className="text-center text-gray-500">Your cart is empty</p>
       )}
-      <div className="mt-6 text-right">
-        <h2 className="text-xl font-bold">Total: ${total.toFixed(2)}</h2>
+      <div className="mt-6  flex flex-col items-end justify-evenly h-28 text-right">
+        Total: NPR{' '}
+        {total.toLocaleString('en-IN', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+        <Link to={{ pathname: '/checkout' }} state={{ cartItems, total }}>
+          <button className=" bg-black text-white tracking-wider  font-semibold h-12 w-24 rounded-3xl">
+            Checkout
+          </button>
+        </Link>
       </div>
     </div>
   )

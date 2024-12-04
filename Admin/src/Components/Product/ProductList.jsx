@@ -13,6 +13,7 @@ const AdminUploadProduct = () => {
     discount: '',
     stockQuantity: '',
     imageUrl: [],
+    colors: [],
   })
 
   const handleChange = (e) => {
@@ -21,44 +22,34 @@ const AdminUploadProduct = () => {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files)
-
     setProductData({ ...productData, imageUrl: files })
+  }
+
+  const handleColorChange = (e) => {
+    const colorValue = e.target.value.trim()
+    if (colorValue && !productData.colors.includes(colorValue)) {
+      setProductData((prev) => ({
+        ...prev,
+        colors: [...prev.colors, colorValue],
+      }))
+    }
+    e.target.value = ''
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('name', productData.name)
-    formData.append('brand', productData.brand)
-    formData.append('category', productData.category)
-    formData.append('overview', productData.overview)
-    formData.append('description', productData.description)
-    formData.append('specs', productData.specs)
-    formData.append('price', productData.price)
-    formData.append('discount', productData.discount)
-    formData.append('stockQuantity', productData.stockQuantity)
-
-    productData.imageUrl.forEach((file) => {
-      formData.append('imageUrl', file)
+    Object.keys(productData).forEach((key) => {
+      if (key === 'imageUrl') {
+        productData[key].forEach((file) => formData.append(key, file))
+      } else if (key === 'colors') {
+        formData.append(key, JSON.stringify(productData[key]))
+      } else {
+        formData.append(key, productData[key])
+      }
     })
 
-    // const productJson = {
-    //   [productData.brand.toLowerCase()]: {
-    //     [productData.category]: [
-    //       {
-    //         productname: productData.name,
-    //         overview: productData.overview,
-    //         description: productData.description,
-    //         specification: productData.specs,
-    //         price: productData.price,
-    //         discount: productData.discount,
-    //         stockQuantity: productData.stockQuantity,
-    //         images: productData.imageUrl.map((file) => file.name),
-    //       },
-    //     ],
-    //   },
-    // }
     try {
       const response = await axios.post(
         'http://localhost:3000/api/products',
@@ -69,105 +60,114 @@ const AdminUploadProduct = () => {
           },
         }
       )
-      alert('SucessFully Added')
-
+      alert('Product added successfully!')
       console.log(response.data)
     } catch (error) {
-      const errorMsg =
-        error.response?.data?.message || error.message || 'An error occurred'
-
-      console.error(errorMsg)
+      console.error(error.response?.data?.message || error.message || 'Error')
     }
   }
 
   return (
-    <div className="w-[40%] h-[70vh]absolute left-0 right-0 bottom-0 top-0 m-auto ">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col space-y-10 text-white "
-      >
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
-        <input
-          type="text"
-          name="brand"
-          placeholder="Brand"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
-        <input
-          type="text"
-          name="overview"
-          placeholder="Overview"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
+    <div className="max-w-2xl mx-auto p-8 bg-black text-gray-300 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold text-center text-white mb-6">
+        Upload Product
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 gap-4">
+          {[
+            { name: 'name', placeholder: 'Product Name' },
+            { name: 'brand', placeholder: 'Brand' },
+            { name: 'category', placeholder: 'Category' },
+            { name: 'overview', placeholder: 'Overview' },
+            { name: 'price', placeholder: 'Price', type: 'number' },
+            { name: 'discount', placeholder: 'Discount', type: 'number' },
+            {
+              name: 'stockQuantity',
+              placeholder: 'Stock Quantity',
+              type: 'number',
+            },
+          ].map(({ name, placeholder, type = 'text' }) => (
+            <input
+              key={name}
+              type={type}
+              name={name}
+              placeholder={placeholder}
+              onChange={handleChange}
+              className="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              required
+            />
+          ))}
+        </div>
+
         <textarea
           name="description"
           placeholder="Product Description"
           onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
+          className="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          rows={3}
           required
-        />
+        ></textarea>
+
         <textarea
-          type="text"
           name="specs"
           placeholder="Specifications"
           onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
+          className="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          rows={3}
+        ></textarea>
 
-        <input
-          type="number"
-          name="discount"
-          placeholder="Discount"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-        />
+        <div>
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium mb-2 text-white"
+          >
+            Upload Images
+          </label>
+          <input
+            type="file"
+            name="imageUrl"
+            multiple
+            onChange={handleFileChange}
+            className="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          name="stockQuantity"
-          placeholder="Stock Quantity"
-          onChange={handleChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
+        <div>
+          <label
+            htmlFor="colors"
+            className="block text-sm font-medium mb-2 text-white"
+          >
+            Add Colors (Press Enter to Add)
+          </label>
+          <input
+            type="text"
+            id="colors"
+            placeholder="Enter a color"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                handleColorChange(e)
+              }
+            }}
+            className="w-full p-3 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          />
+          <div className="mt-2 flex flex-wrap gap-2">
+            {productData.colors.map((color, index) => (
+              <span
+                key={index}
+                className="bg-gray-500 text-black px-3 py-1 rounded-full"
+              >
+                {color}
+              </span>
+            ))}
+          </div>
+        </div>
 
-        <input
-          type="file"
-          name="imageUrl"
-          multiple
-          onChange={handleFileChange}
-          className="w-full border-0 border-b-2 bg-transparent border-white focus:outline-none focus:border-b-[#007bff] transition-colors duration-100"
-          required
-        />
-
-        <button type="submit" className="w-full h-[5vh] font-bold bg-[#6c757d]">
+        <button
+          type="submit"
+          className="w-full p-3 bg-gray-700 text-white font-bold rounded hover:bg-gray-600 transition duration-200"
+        >
           Upload Product
         </button>
       </form>

@@ -10,6 +10,9 @@ import MacBookProInfo from './Pages/Apple/MacBookProInfo'
 import InEar from './Pages/Marshall/InEar'
 import InEarInfo from './Pages/Marshall/InEarInfo'
 import { ToastContainer } from 'react-toastify'
+import BillingInfo from './Pages/BillingInfo'
+import Checkout from './Pages/Checkout'
+import Payment_Sucess from './Pages/Payment-Sucess'
 import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
@@ -32,6 +35,9 @@ const App = () => {
           <Route path="/cartitems" element={<CartItems />} />
           <Route path="/inear" element={<InEar />} />
           <Route path="/inear/:ProductName" element={<InEarInfo />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/billinginfo" element={<BillingInfo />} />
+          <Route path="/payment-sucess" element={<Payment_Sucess />} />
         </Route>
       </Routes>
     </div>

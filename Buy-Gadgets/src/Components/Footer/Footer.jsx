@@ -1,77 +1,101 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../../assets/images/logo.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons'
 
 const Footer = () => {
   return (
-    <footer className=" bg-black text-white border-y">
-      <div className="mx-auto bg-red-600 w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="w-[95%] h-[12vh] flex items-center justify-between p-4 text-xl">
-          <form action="#" className="space-y-4">
-            <p>Weekly Newsletter</p>
-            <input
-              className="bg-transparent border-0 border-b-2 border-white text-white placeholder-white focus:outline-none"
-              type="email"
-              placeholder="Enter your email..."
-            />
-            <button className="font-bold">SUBSCRIBE</button>
-          </form>
-          <div className="quickLinks space-x-4 text-xl">
-            <Link to="/home">Home</Link>
-            <Link to="/Artists">Artists</Link>
-            <Link to="/Merch">Merch</Link>
-            <Link to="/CrowdFunding">Crowd Funding</Link>
+    <footer className="bg-black text-white py-10">
+      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* IonSphereTech Info */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">IonSphereTech</h2>
+          <p>Apple Authorized Reseller</p>
+          <p>Apple Authorized Service Provider</p>
+          <p>1 Durbar Mall, 2nd Floor.</p>
+          <p>Opposite to Durbar Marg Police Station.</p>
+          <p>Kathmandu, Postal Code 44600</p>
+          <p>Tel: +977 1 5312100</p>
+          <p>Cell: +977 9801131696</p>
+        </div>
+
+        {/* Explore */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Explore</h2>
+          <ul className="space-y-2">
+            <li>Home</li>
+            <li>Store Location</li>
+            <li>Blog</li>
+            <li>FAQ</li>
+            <li>EMI</li>
+            <li>Service</li>
+          </ul>
+        </div>
+
+        {/* Categories */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Categories</h2>
+          <ul className="space-y-2">
+            <li>Action Camera & Accessories</li>
+            <li>iPhone 13 & 14 Cases</li>
+            <li>iPhone 15 Cases & Tempered Glass</li>
+            <li>iPad Accessories</li>
+            <li>iPhone Cases</li>
+            <li>Mac Accessories</li>
+            <li>Cables & Data</li>
+            <li>Cover and Cases</li>
+            <li>Laptop Sleeves</li>
+            <li>Backpacks</li>
+            <li>Gaming Products</li>
+            <li>Electronics</li>
+            <li>Hard Drive and SSD</li>
+            <li>Health and Care</li>
+            <li>Projector and Accessories</li>
+            <li>USB and SD cards</li>
+          </ul>
+        </div>
+
+        {/* Brands and Contact */}
+        <div>
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Brands</h2>
+            <ul className="space-y-2">
+              <li>Apple</li>
+              <li>Marshall</li>
+              <li>Bose</li>
+              <li>JBL</li>
+              <li>Case Logic</li>
+              <li>Belkin</li>
+            </ul>
+          </div>
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">Contact</h2>
+            <p>Evolution Trading Pvt. Ltd.</p>
+            <p>Bakhundole, Lalitpur, Ward #1</p>
+            <p>Postal Code 44700</p>
+            <p>Email: info@ionspheretech.com</p>
+            <p>Tel: 01-5454338, 01-5454339</p>
+            <p>01-5454284, 01-5454285</p>
           </div>
         </div>
       </div>
-      <div className="container-bottom flex items-center justify-center  w-full min-w-14 flex-grow">
-        <div className="w-[95%] h-[30vh] flex items-center justify-between m-auto ">
-          <div className="w-[40%] h-[30vh] ">
-            <div className="logo w-[20%] h-[10vh] ">
-              <img
-                src={logo}
-                alt="logo"
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-            <Link to="/About">About</Link>
-            <br />
-            <Link to="/Contact Us">Contact Us</Link>
-            <div className="copyright mt-10">
-              <p>© 2024 ByMusic</p>
-              <br />
-              <Link to="/About" className="font-thin">
-                Terms and Conditions
-              </Link>
-              &nbsp;
-              <Link to="/About" className="font-thin">
-                Privacy Policy
-              </Link>
-            </div>
-          </div>
-          <div className="community w-[40%] h-[15vh] flex flex-col items-start justify-center mt-20">
-            <div className="space-x-4 text-4xl">
-              <a
-                href="https://www.facebook.com/YourPage"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FontAwesomeIcon icon={faFacebook} />
-              </a>
-              <a
-                href="https://www.instagram.com/YourProfile"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FontAwesomeIcon icon={faInstagram} />
-              </a>
-            </div>
-
-            <h2>JOIN THE BUYMUSIC COMMUNITY</h2>
-            <h2>SPICE UP YOUR LOCAL MUSIC SCENE</h2>
-          </div>
+      {/* Social Media */}
+      <div className="mt-10 border-t border-gray-700 pt-6 text-center">
+        <p className="mb-2">Follow Us On:</p>
+        <div className="flex justify-center space-x-4">
+          <a
+            href="#"
+            className="text-gray-400 hover:text-white"
+            aria-label="Facebook"
+          >
+            <FontAwesomeIcon icon={faFacebookF} size="lg" />
+          </a>
+          <a
+            href="#"
+            className="text-gray-400 hover:text-white"
+            aria-label="Instagram"
+          >
+            <FontAwesomeIcon icon={faInstagram} size="lg" />
+          </a>
         </div>
       </div>
     </footer>

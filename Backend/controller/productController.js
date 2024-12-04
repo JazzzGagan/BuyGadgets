@@ -17,6 +17,7 @@ const createProduct = asyncHandler(async (req, res) => {
     price,
     discount,
     stockQuantity,
+    colors,
   } = req.body
 
   if (
@@ -27,11 +28,13 @@ const createProduct = asyncHandler(async (req, res) => {
     !specs ||
     !description ||
     !price ||
-    !stockQuantity
+    !stockQuantity ||
+    !colors
   ) {
     res.status(400)
     throw new Error('All fields are mandatory')
   }
+
   const imageUrls = []
 
   console.log('test', req.files)
@@ -47,6 +50,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
     fs.unlinkSync(localFilePath)
   }
+
   console.log('Received body:', req.body)
   console.log('Received files:', req.files)
 
@@ -60,6 +64,7 @@ const createProduct = asyncHandler(async (req, res) => {
     price,
     discount,
     stockQuantity,
+    colors: JSON.parse(colors),
     imageUrl: imageUrls,
   })
 
@@ -74,11 +79,13 @@ const createProduct = asyncHandler(async (req, res) => {
           price,
           discount,
           stockQuantity,
+          colors: JSON.parse(colors), // Include colors in the response
           images: imageUrls,
         },
       ],
     },
   }
+
   res.status(201).json({ message: 'Product added successfully!', responseJson })
 })
 
@@ -160,6 +167,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
         discount,
         stockQuantity,
         imageUrl,
+        colors,
       } = product
 
       if (!responseJson[brand.toLowerCase()]) {
@@ -180,10 +188,12 @@ const getAllProduct = asyncHandler(async (req, res) => {
         discount,
         stockQuantity,
         images: imageUrl,
+        colors,
       })
     })
 
     res.status(200).json(responseJson)
+    console.log(responseJson)
   } else {
     res.status(404)
     throw new Error('Products not found')

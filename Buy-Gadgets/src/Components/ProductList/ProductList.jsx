@@ -8,6 +8,8 @@ const Apple = ({ category }) => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  console.log('test', data)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,7 +18,7 @@ const Apple = ({ category }) => {
             'Content-Type': 'application/json',
           },
         })
-        setData(response.data) // Assuming response.data is an array of objects
+        setData(response.data)
         setLoading(false)
       } catch (err) {
         setError(err)
@@ -66,7 +68,6 @@ const Apple = ({ category }) => {
                         <div className="hover:underline">
                           <p>{product.productname}</p>
                           <p>{product.overview}</p>{' '}
-                          {/* Changed to overview for clarity */}
                         </div>
                         <strong className="line-through text-red-500">
                           NPR {product.price}
@@ -84,7 +85,7 @@ const Apple = ({ category }) => {
                 </ul>
               )
             }
-            return null // If cat is not "macbookair", return null
+            return null
           })}
         </div>
       ))}

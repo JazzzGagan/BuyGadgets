@@ -11,12 +11,12 @@ const ProduceSchemna = new mongoose.Schema(
     price: Number,
     discount: Number,
     stockQuantity: Number,
+    colors: [String],
     imageUrl: [{ type: String }],
   },
   {
     timestamps: true,
   }
 )
-
 const Product = mongoose.model('Product', ProduceSchemna)
 module.exports = Product

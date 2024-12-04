@@ -9,11 +9,10 @@ import {
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.jpg'
 import LoginTest2 from '../../Pages/LoginTest2'
-import { AuthContext } from '../../context/AuthContext'
+
 import DropDown from './DropDown/DropDown'
 
 const Header = () => {
-
   const [showLogin, setShowLogin] = useState(false)
   const [dropdowns, setDropDowns] = useState({})
 
@@ -38,11 +37,13 @@ const Header = () => {
       <header className=" font-avenir header-wrapper w-full h-[10vh] bg-black">
         <div className="header-container w-[95%] h-[10vh] m-auto flex items-center justify-evenly">
           <div className="header-item w-[10%] h-[10vh] ">
-            <img
-              src={logo}
-              alt="logo"
-              className="object-cover  w-full h-full object-center"
-            />
+            <Link to="/">
+              <img
+                src={logo}
+                alt="logo"
+                className="object-cover cursor-pointer  w-full h-full object-center"
+              />
+            </Link>
           </div>
           <nav className="header-item w-[80%] h-[10vh]  flex items-center text-sm justify-center">
             <ul className="flex space-x-5 h-[10vh]  items-center text-white cursor-pointer">
@@ -166,8 +167,10 @@ const Header = () => {
                   <div className="dropdown absolute  top-11 right-0 mt-2 mr-5 w-[150px] h-[18vh] bg-[#eaeaea] text-black border border-[#bebfbf] shadow-md">
                     <div className="flex flex-col w-full h-full ">
                       <ul className="flex flex-col justify-evenly  h-full cursor-pointer">
-                        <li className="text-center" >My Account</li>
+                        <li className="text-center">My Account</li>
+                      <Link to="/payment-sucess">
                         <li className="text-center">Order History</li>
+                      </Link>
                         <li className="text-center">Logout</li>
                       </ul>
                     </div>

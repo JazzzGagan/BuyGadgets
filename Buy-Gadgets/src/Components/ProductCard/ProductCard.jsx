@@ -9,7 +9,8 @@ const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState('')
   const { user } = useContext(AuthContext)
-  const { cartCount, setCartCount } = useContext(CartContext)
+  const { cartCount, setCartCount, duplicateItem, cartItems } =
+    useContext(CartContext)
 
   if (!product) {
     return <p>No product data availabe</p>
@@ -32,7 +33,6 @@ const ProductCard = ({ product }) => {
     product.images.forEach((files) => {
       cartItem.ImageUrl.push(files)
     })
-    console.log('testing', cartItem)
 
     if (user?.id) {
       cartItem.userId = user.id
@@ -46,7 +46,10 @@ const ProductCard = ({ product }) => {
           headers: { 'Content-Type': 'application/json' },
         }
       )
-      alert(response.data.message) // Success message
+      alert(response.data.message)
+      // duplicateItem(cartItem)
+      console.log('test', cartItem)
+
       setCartCount(cartCount + 1)
     } catch (error) {
       console.error('Error adding to cart:', error)
@@ -104,11 +107,12 @@ const ProductCard = ({ product }) => {
               className=" border border-gray-300  focus:ring-blue-200 text-sm w-96 h-8"
               required
             >
-              <option value="">----Please Select---</option>
-              <option value="Starlight">Starlight</option>
-              <option value="Space Gray">Space Gray</option>
-              <option value="Midnight">Midnight</option>
-              <option value="Silver">Silver</option>
+              <option value="">---Please Select---</option>
+              {product.colors.map((color, index) => (
+                <option key={index} value={color}>
+                  {color}
+                </option>
+              ))}
             </select>
           </div>
           <br />
